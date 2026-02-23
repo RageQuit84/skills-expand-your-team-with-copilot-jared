@@ -28,6 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dark mode elements
   const darkModeToggle = document.getElementById("dark-mode-toggle");
   const themeIcon = document.getElementById("theme-icon");
+  
+  // Dark mode icon constants
+  const DARK_MODE_ICON = "☀️";
+  const LIGHT_MODE_ICON = "🌙";
 
   // Activity categories with corresponding colors
   const activityTypes = {
@@ -107,9 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       document.body.classList.add("dark-mode");
-      themeIcon.textContent = "☀️";
+      themeIcon.textContent = DARK_MODE_ICON;
     } else {
-      themeIcon.textContent = "🌙";
+      themeIcon.textContent = LIGHT_MODE_ICON;
     }
   }
 
@@ -118,10 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDarkMode = document.body.classList.contains("dark-mode");
     
     if (isDarkMode) {
-      themeIcon.textContent = "☀️";
+      themeIcon.textContent = DARK_MODE_ICON;
       localStorage.setItem("theme", "dark");
     } else {
-      themeIcon.textContent = "🌙";
+      themeIcon.textContent = LIGHT_MODE_ICON;
       localStorage.setItem("theme", "light");
     }
   }
