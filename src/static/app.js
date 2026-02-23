@@ -569,6 +569,17 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-buttons">
+        <button class="share-button twitter" data-activity="${name}" data-share="twitter" title="Share on Twitter">
+          🐦 Twitter
+        </button>
+        <button class="share-button facebook" data-activity="${name}" data-share="facebook" title="Share on Facebook">
+          📘 Facebook
+        </button>
+        <button class="share-button email" data-activity="${name}" data-share="email" title="Share via Email">
+          ✉️ Email
+        </button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +597,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-button");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        handleShare(name, details, button.dataset.share);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -809,6 +828,40 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       messageDiv.classList.add("hidden");
     }, 5000);
+  }
+
+  // Handle social sharing
+  function handleShare(activityName, activityDetails, platform) {
+    const formattedSchedule = formatSchedule(activityDetails);
+    const shareText = `Check out ${activityName} at Mergington High School! ${activityDetails.description}`;
+    const shareUrl = window.location.href;
+    
+    let url = "";
+    
+    switch (platform) {
+      case "twitter":
+        url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          shareText
+        )}&url=${encodeURIComponent(shareUrl)}`;
+        window.open(url, "_blank", "width=550,height=420");
+        break;
+        
+      case "facebook":
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          shareUrl
+        )}&quote=${encodeURIComponent(shareText)}`;
+        window.open(url, "_blank", "width=550,height=420");
+        break;
+        
+      case "email":
+        const subject = `Check out ${activityName} at Mergington High School`;
+        const body = `Hi,\n\nI wanted to share this activity with you:\n\n${activityName}\n${activityDetails.description}\n\nSchedule: ${formattedSchedule}\n\nLearn more at: ${shareUrl}`;
+        url = `mailto:?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(body)}`;
+        window.location.href = url;
+        break;
+    }
   }
 
   // Handle form submission
